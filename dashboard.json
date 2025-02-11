@@ -1,0 +1,1068 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "violation_status"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "GREEN": {
+                        "color": "dark-green",
+                        "index": 1,
+                        "text": "NORMAL"
+                      },
+                      "RED": {
+                        "color": "dark-red",
+                        "index": 0,
+                        "text": "WARNING"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "__time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Timestamp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vehicle_id"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Vehicle"
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "violation_status"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Status"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temperature"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Temperature"
+              },
+              {
+                "id": "unit",
+                "value": "celsius"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "applyToRow": false,
+                  "mode": "gradient",
+                  "type": "color-background",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-blue",
+                  "mode": "continuous-blues"
+                }
+              },
+              {
+                "id": "min",
+                "value": -1
+              },
+              {
+                "id": "max",
+                "value": 8
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "humidity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Humidity"
+              },
+              {
+                "id": "unit",
+                "value": "humidity"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 55
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "applyToRow": false,
+                  "mode": "gradient",
+                  "type": "color-background",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-greens"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "radiation"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Radiation"
+              },
+              {
+                "id": "unit",
+                "value": "radrad"
+              },
+              {
+                "id": "min",
+                "value": 800
+              },
+              {
+                "id": "max",
+                "value": 1500
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "applyToRow": false,
+                  "mode": "gradient",
+                  "type": "color-background",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-reds"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 14,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT\r\n    vehicle_id,\r\n    temperature,\r\n    humidity,\r\n    radiation,\r\n    CASE\r\n        WHEN violation_flag = 'true' THEN 'RED'\r\n        ELSE 'GREEN'\r\n    END AS violation_status\r\nFROM \"druid-flagged-sensor-data\"\r\nWHERE \"__time\" >= CURRENT_TIMESTAMP - INTERVAL 7 SECOND\r\nORDER BY \"__time\" \r\n\r\n",
+            "queryType": "sql"
+          },
+          "datasource": {
+            "type": "grafadruid-druid-datasource",
+            "uid": "ee5x0u0lmo6bke"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT\\r\\n    vehicle_id,\\r\\n    temperature,\\r\\n    humidity,\\r\\n    radiation,\\r\\n    CASE\\r\\n        WHEN violation_flag = 'true' THEN 'RED'\\r\\n        ELSE 'GREEN'\\r\\n    END AS violation_status\\r\\nFROM \\\"druid-flagged-sensor-data\\\"\\r\\nWHERE \\\"__time\\\" >= CURRENT_TIMESTAMP - INTERVAL 7 SECOND\\r\\nORDER BY \\\"__time\\\" \\r\\n\\r\\n\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "Vehicle Sensor Data",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-yellow",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "fillOpacity": 57,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "quantity"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 10,
+        "x": 14,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.51,
+        "colorByField": "quantity",
+        "fullHighlight": false,
+        "groupWidth": 0.68,
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "warehouse_id",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT warehouse_id, MAX(quantity) AS quantity\nFROM \"inventory-updates-data\"\nWHERE \"__time\" >= CURRENT_TIMESTAMP - INTERVAL 20 SECOND\nGROUP BY warehouse_id",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT warehouse_id, MAX(quantity) AS quantity\\nFROM \\\"inventory-updates-data\\\"\\nWHERE \\\"__time\\\" >= CURRENT_TIMESTAMP - INTERVAL 20 SECOND\\nGROUP BY warehouse_id\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{\"contextParameters\":[{\"name\":\"enableWindowing\",\"value\":\"true\"}]}}",
+          "refId": "A",
+          "settings": {
+            "contextParameters": [
+              {
+                "name": "enableWindowing",
+                "value": "true"
+              }
+            ]
+          }
+        }
+      ],
+      "title": "Inventory Levels",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$0"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 78
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT COUNT(*)\nFROM \"confirmed-orders-list\"\n",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT COUNT(*)\\nFROM \\\"confirmed-orders-list\\\"\\n\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "TOTAL ORDERS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$0"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 78
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT COUNT(*)\r\nFROM \"confirmed-orders-list\"\r\nWHERE TIMESTAMPDIFF(SECOND, \r\n    TIME_PARSE(\"estimated_delivery\", 'yyyy-MM-dd HH:mm:ss'), \r\n    TIME_PARSE(\"expected_delivery\", 'yyyy-MM-dd HH:mm:ss')) > (1 * 24 * 3600 + 20 * 3600)\r\n",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT COUNT(*)\\r\\nFROM \\\"confirmed-orders-list\\\"\\r\\nWHERE TIMESTAMPDIFF(SECOND, \\r\\n    TIME_PARSE(\\\"estimated_delivery\\\", 'yyyy-MM-dd HH:mm:ss'), \\r\\n    TIME_PARSE(\\\"expected_delivery\\\", 'yyyy-MM-dd HH:mm:ss')) > (1 * 24 * 3600 + 20 * 3600)\\r\\n\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "No. of Delayed Orders",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Total Units Ordered"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vaccine_id"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Vaccine ID"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 8,
+        "y": 12
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT vaccine_id, SUM(quantity)\nFROM \"confirmed-orders-list\"\nGROUP BY vaccine_id\nORDER BY vaccine_id",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT vaccine_id, SUM(quantity)\\nFROM \\\"confirmed-orders-list\\\"\\nGROUP BY vaccine_id\\nORDER BY vaccine_id\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "Vaccine Data",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vaccine_id"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Vaccine ID"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Predicted No. of Units"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 15,
+        "y": 12
+      },
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT vaccine_id, MAX(Predicted_Demand)\nFROM \"inventory-predictions-data\"\nWHERE \"__time\" >= CURRENT_TIMESTAMP - INTERVAL 5 SECOND\nGROUP BY vaccine_id",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT vaccine_id, MAX(Predicted_Demand)\\nFROM \\\"inventory-predictions-data\\\"\\nWHERE \\\"__time\\\" >= CURRENT_TIMESTAMP - INTERVAL 5 SECOND\\nGROUP BY vaccine_id\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "Predicted Demand",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$0"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 78
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT COUNT(*)\r\nFROM \"confirmed-orders-list\"\r\nWHERE \"estimated_delivery\" > CURRENT_TIMESTAMP \r\n\r\n",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT COUNT(*)\\r\\nFROM \\\"confirmed-orders-list\\\"\\r\\nWHERE \\\"estimated_delivery\\\" > CURRENT_TIMESTAMP \\r\\n\\r\\n\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "Ongoing Orders",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafadruid-druid-datasource",
+        "uid": "ee5x0u0lmo6bke"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXPR$0"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 16
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 78
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "builder": {
+            "intervals": {
+              "intervals": [
+                "${__from:date:iso}/${__to:date:iso}"
+              ],
+              "type": "intervals"
+            },
+            "query": "SELECT COUNT(*)\nFROM \"inventory-predictions-data\"\nWHERE \"Anomaly_Score\">=0.5",
+            "queryType": "sql"
+          },
+          "expr": "{\"builder\":{\"queryType\":\"sql\",\"query\":\"SELECT COUNT(*)\\nFROM \\\"inventory-predictions-data\\\"\\nWHERE \\\"Anomaly_Score\\\">=0.5\",\"intervals\":{\"type\":\"intervals\",\"intervals\":[\"${__from:date:iso}/${__to:date:iso}\"]}},\"settings\":{}}",
+          "refId": "A",
+          "settings": {}
+        }
+      ],
+      "title": "Inventory Anomalies",
+      "type": "stat"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Medical Supply Chain Data",
+  "uid": "ee5xa6z30ofeof",
+  "version": 25,
+  "weekStart": ""
+}
